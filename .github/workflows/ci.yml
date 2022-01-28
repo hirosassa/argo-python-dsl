@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
 
     steps:
     - uses: actions/checkout@v2
@@ -55,23 +55,19 @@ jobs:
         tar -C $HOME/.local/bin -xvf release.tar.gz
 
         # python dependencies
-        python -m pip install --user --upgrade pip pipenv
-        pip install --user -r requirements-test.txt
+        python -m pip install --user --upgrade pip tox tox-gh-actions
 
-    # - name: Lint with flake8instance
-    #   run: |
-    #     pip install flake8
-    #     # stop the build if there are Python syntax errors or undefined names
-    #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-    #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Lint with flake8instance
+      run: |
+        pip install tox
+        tox -e lint
 
     - name: Test
       run: |
         export PATH=$HOME/.local/bin:/usr/local/bin:$PATH
 
         # run tests
-        pytest
+        tox
         # bash tests/test-notebooks.sh
     - name: Install Argo CLI
       run: |

@@ -27,7 +27,7 @@ class artifact(Prop, extends=("arguments", V1alpha1Arguments)):
         if not hasattr(f, "__props__"):
             f.__props__ = {prop_name: prop(artifacts=artifacts)}
         else:
-            arguments: Type[prop] = f.__props__.get(prop_name, prop())
+            arguments: Type[prop] = f.__props__.get(prop_name, prop())  # noqa: F821
 
             if not getattr(arguments, "artifacts"):
                 arguments.artifacts = artifacts
@@ -52,7 +52,7 @@ class parameter(Prop, extends=("arguments", V1alpha1Arguments)):
         if not hasattr(f, "__props__"):
             f.__props__ = {prop_name: prop(parameters=parameters)}
         else:
-            arguments: Type[prop] = f.__props__.get(prop_name, prop())
+            arguments: Type[prop] = f.__props__.get(prop_name, prop())  # noqa: F821
 
             if not getattr(arguments, "parameters"):
                 arguments.parameters = parameters

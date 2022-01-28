@@ -432,7 +432,7 @@ class Workflow(metaclass=WorkflowMeta):
 
         service = WorkflowServiceApi(api_client=client)
         # submit the workflow
-        created: models.V1alpha1Workflow = service.create_workflow(
+        created: V1alpha1Workflow = service.create_workflow(
             namespace, V1alpha1WorkflowCreateRequest(workflow=body)
         )
 
@@ -446,9 +446,9 @@ class Workflow(metaclass=WorkflowMeta):
         opts = kwargs
 
         if fmt == "json":
-            path = Path(fp).write_text(json.dumps(d, **opts))
+            _ = Path(fp).write_text(json.dumps(d, **opts))
         else:
-            path = Path(fp).write_text(
+            _ = Path(fp).write_text(
                 yaml.dump(d, Dumper=_utils.BlockDumper, **opts) + "\n"
             )
 
